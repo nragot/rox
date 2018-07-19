@@ -14,3 +14,4 @@ from classes.document import Document
 
 w = Window ()
 w.go()
+#ok
