@@ -9,8 +9,8 @@ from classes.texFile import TexFile
 
 class End (TexFile):
     
-    def __init__(self):
-        TexFile.__init__(self)
+    def __init__(self, parentTex, context):
+        TexFile.__init__(self, parentTex, context)
         self.name = "end"
     
     def write (self):

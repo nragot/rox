@@ -10,8 +10,6 @@ print ("Hello world")
 print ("************")
 
 from classes.window import Window
-from classes.document import Document
 
 w = Window ()
 w.go()
-#ok
