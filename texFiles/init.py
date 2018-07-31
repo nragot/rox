@@ -25,7 +25,7 @@ class Init (TexFile):
         if key == "t":
             self.context.parent.dialog = AskString (self, self.changeTitle, self.context, "change title")
         elif key == "a":
-            self.context.parent.dialog = AskString (self, self.changeTitle, self.context, "change author")
+            self.context.parent.dialog = AskString (self, self.changeAuthor, self.context, "change author")
         """
         if key == "t":
             self.state = "title"
@@ -50,7 +50,7 @@ class Init (TexFile):
         doc.write ("\\documentclass{article}\n"      +\
                    "\\usepackage[utf8x]{inputenc}\n" +\
                    "\\usepackage[T1]{fontenc}\n"     +\
-                   "\\usepackage{xcolor}"           +\
+                   "\\usepackage{xcolor}"            +\
                    "\\author{"+self.author+"}\n"     +\
                    "\\date{\\today}\n"               +\
                    "\\title{"+self.title+"}\n"       +\

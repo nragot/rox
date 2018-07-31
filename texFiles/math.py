@@ -18,11 +18,6 @@ class Math (TexFile):
         self.maxCharPerLine = 1
         self.name = "math"
         self.focus = 0
-        self.colors = [(  0,   0,   0),\
-                       (255,   0,   0),\
-                       (  0, 255,   0),\
-                       (  0,   0, 255),\
-                       (255, 100, 100)]
     
     def resize(self, left, up, right, down):
         TexFile.resize(self, left, up, right, down)
@@ -55,9 +50,14 @@ class Math (TexFile):
         textColor = None
         left = 0
         up = 0
-        color = 0
+        color = [0]
+        lastColor = 0
+        toChange = False
         
         for char in self.text:
+            if toChange:
+                color = color[:-1]
+                toChange = False
             if i - lastBreaks == self.maxCharPerLine:
                 lastBreaks = i
                 line += 1
@@ -66,13 +66,20 @@ class Math (TexFile):
                 line += 1
                 char = " "
             elif char == "{":
-                color += 1
+                lastColor += 1
+                color += [lastColor % len (assets.colors)]
+            elif char == "}":
+                toChange = True
             if i == self.cursor:
                 boxColor  = assets.cursor
                 textColor = assets.background 
             else:
-                boxColor  = assets.background
-                textColor = self.colors[color]
+                if len (color) == 0:
+                    boxColor = assets.errorBackground
+                    textColor = assets.errorText
+                else:
+                    boxColor  = assets.background
+                    textColor = assets.colors[color[-1]]
             left = self.context.left + (i - lastBreaks) * assets.charwidth
             up = assets.fontsize * 1.5 * line
             
@@ -95,9 +102,11 @@ class Math (TexFile):
             doc.write (char)
             if char == "{":
                 i += 1
-                c = self.colors[i]
-                doc.write ("\\color[rgb]{" + str(c[0] / 255) + "," +\
-                           str(c[1] / 255) + "," + str (c[2] / 255)+ "}")
+                c = assets.colors[i]
+                doc.write ("\\textcolor[rgb]{" + str(c[0] / 255) + "," +\
+                           str(c[1] / 255) + "," + str (c[2] / 255)+ "}{")
+            elif char == "}":
+                doc.write ("}")
         doc.write ("\n$$")
         doc.close ()
         join.connect (file)

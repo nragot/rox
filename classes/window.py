@@ -63,7 +63,7 @@ class Window:
                 self.currentTexFile.key (event, key, char)
         else:
             self.dialog.key (key, char)
-        print (key + " " + char + " " + str (state))
+        #print (key + " " + char + " " + str (state))
         self.redraw()
         
     def __mouse1Pressed__ (self, event):
